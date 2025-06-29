@@ -14,6 +14,18 @@ pipeline {
             }
         }
 
+        stage('Terraform Init and Apply') {
+            steps {
+                dir('jenkins-tf-azure') {  // adjust this if your main.tf is in a different folder
+                    sh '''
+                        terraform init
+                        terraform validate
+                        terraform apply -auto-approve
+                    '''
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 dir('flask-calculator') {
