@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout from GitHub') {
             steps {
-                git 'https://github.com/<your-username>/Project-IAC-Uisng-Jenkins.git'
+                git 'https://github.com/nitinpahwa77/Project-IAC-Uisng-Jenkins.git'
             }
         }
 
