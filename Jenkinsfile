@@ -16,12 +16,24 @@ pipeline {
 
         stage('Terraform Init and Apply') {
             steps {
-                dir('jenkins-tf-azure') {  // Adjust if your Terraform code is in a different folder
-                    sh '''
-                        terraform init
-                        terraform validate
-                        terraform apply -auto-approve
-                    '''
+                withCredentials([azureServicePrincipal(
+                    credentialsId: 'azure-sp',
+                    clientIdVariable: 'ARM_CLIENT_ID',
+                    clientSecretVariable: 'ARM_CLIENT_SECRET',
+                    tenantIdVariable: 'ARM_TENANT_ID',
+                    subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID'
+                )]) {
+                    dir('jenkins-tf-azure') {
+                        sh '''
+                            export ARM_CLIENT_ID=$ARM_CLIENT_ID
+                            export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET
+                            export ARM_TENANT_ID=$ARM_TENANT_ID
+                            export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
+                            terraform init
+                            terraform validate
+                            terraform apply -auto-approve
+                        '''
+                    }
                 }
             }
         }
