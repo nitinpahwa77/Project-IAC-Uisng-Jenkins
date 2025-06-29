@@ -29,6 +29,7 @@ pipeline {
                             export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET
                             export ARM_TENANT_ID=$ARM_TENANT_ID
                             export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID
+
                             terraform init
                             terraform validate
                             terraform apply -auto-approve
@@ -42,6 +43,8 @@ pipeline {
             steps {
                 dir('flask-calculator') {
                     sh '''
+                        apt-get update && apt-get install -y python3-venv
+
                         python3 -m venv venv
                         . venv/bin/activate
                         pip install -r requirements.txt
