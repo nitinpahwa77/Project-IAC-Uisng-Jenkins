@@ -10,13 +10,13 @@ pipeline {
     stages {
         stage('Checkout from GitHub') {
             steps {
-                git 'https://github.com/nitinpahwa77/Project-IAC-Uisng-Jenkins.git'
+                git branch: 'main', url: 'https://github.com/nitinpahwa77/Project-IAC-Uisng-Jenkins.git'
             }
         }
 
         stage('Terraform Init and Apply') {
             steps {
-                dir('jenkins-tf-azure') {  // adjust this if your main.tf is in a different folder
+                dir('jenkins-tf-azure') {  // Adjust if your Terraform code is in a different folder
                     sh '''
                         terraform init
                         terraform validate
